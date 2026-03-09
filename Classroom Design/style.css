@@ -1,83 +1,197 @@
-body{
-    margin:0;
-    height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
+/* Import child-friendly font */
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&display=swap');
+
+:root {
+    --teacher-width: 300px;
+    --teacher-height: 400px;
+    --teacher-board-gap: 20px;
+    --box-gap: 20px;
+    --board-vertical-offset: -40px;
+
+    /* Playful Palette */
+    --color-english: #FF6B6B;
+    /* Vibrant Red */
+    --color-urdu: #4ECDC4;
+    /* Playful Teal */
+    --color-maths: #FFD93D;
+    /* Sunny Yellow */
+    --color-text: #2D3436;
+    --color-shadow: rgba(0, 0, 0, 0.2);
+}
+
+body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     background-image: url('./media/background.png');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    font-family:sans-serif;
+    font-family: 'Fredoka', sans-serif;
+    overflow: hidden;
 }
 
-:root {
-    --teacher-width: 300px; /* Configure the teacher image width here */
-    --teacher-height: 400px; /* Configure the teacher image height here */
-    --teacher-board-gap: 20px; /* Configure the distance between teacher and board here */
-    --box-gap: 0px; /* Configure the space between buttons here */    
-    --board-vertical-offset: -40px; /* Configure vertical position of the board (positive for down, negative for up) */
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    perspective: 1000px;
 }
 
-.container{
-    display:flex;
-    justify-content:center;
-    align-items:center;
+/* Blackboard/Board Styling */
+.board {
+    width: 450px;
+    height: auto;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: var(--box-gap);
+    transform: translateY(var(--board-vertical-offset)) rotateX(5deg);
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(5px);
+    border-radius: 30px;
+    border: 4px solid rgba(255, 255, 255, 0.3);
 }
 
-/* Blackboard */
-
-.board{
-    width:400px;
-    height:300px;
-    padding:0px;
-    display:flex;
-    flex-direction:column;
-    justify-content:space-between;
-    gap: var(--box-gap);    
-    transform: translateY(var(--board-vertical-offset));
+/* Playful 3D Subject Boxes */
+.box {
+    background: white;
+    padding: 20px 40px;
+    text-align: center;
+    font-size: 28px;
+    font-weight: 600;
+    cursor: pointer;
+    border-radius: 50px;
+    /* Rounded pill shape */
+    box-shadow: 0 10px 0 var(--box-shadow-color, #CCCCCC);
+    transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    color: var(--color-text);
+    position: relative;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
 }
 
-/* Subject boxes */
-
-.box{
-    background:white;
-    padding:15px;
-    text-align:center;
-    font-size:22px;
-    cursor:pointer;
-    border-radius:2px;
+.box[data-subject="english"] {
+    --box-shadow-color: #D64545;
+    background-color: var(--color-english);
+    color: white;
 }
 
-.box:hover{
-    background:#f5f5f5;
+.box[data-subject="urdu"] {
+    --box-shadow-color: #38A39C;
+    background-color: var(--color-urdu);
+    color: white;
 }
 
-/* Teacher */
+.box[data-subject="maths"] {
+    --box-shadow-color: #EBB21B;
+    background-color: var(--color-maths);
+    color: #2D3436;
+}
 
-.teacher{
-    position:relative;
-    display:flex;
-    align-items:center;
+.box:hover {
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 15px 0 var(--box-shadow-color);
+}
+
+.box:active {
+    transform: translateY(5px);
+    box-shadow: 0 5px 0 var(--box-shadow-color);
+}
+
+/* Icons for boxes */
+.box::before {
+    font-size: 1.2em;
+}
+
+.box[data-subject="english"]::before {
+    content: '🔠';
+}
+
+.box[data-subject="urdu"]::before {
+    content: '🖊️';
+}
+
+.box[data-subject="maths"]::before {
+    content: '🔢';
+}
+
+/* Teacher Container */
+.teacher {
+    position: relative;
+    display: flex;
+    align-items: center;
     gap: var(--teacher-board-gap);
-    --board-vertical-offset: -40px;
-    
+    animation: float 4s ease-in-out infinite;
 }
 
 .teacher img {
     width: var(--teacher-width);
     height: var(--teacher-height);
+    filter: drop-shadow(0 20px 30px rgba(0, 0, 0, 0.3));
+    transition: transform 0.3s ease;
 }
 
-.teacher-body{
-    height:320px;
+/* Floating Animation */
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
 }
 
-.hand{
-    position:absolute;
-    top:120px;
-    left:120px;
-    height:80px;
-    transform-origin:left center;
-    transition:0.3s ease;
+/* Speech Bubble Styles */
+.speech-bubble {
+    position: absolute;
+    top: -50px;
+    right: -20px;
+    background: white;
+    padding: 15px 25px;
+    border-radius: 30px;
+    color: var(--color-text);
+    font-weight: 600;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    opacity: 0;
+    transform: scale(0.8);
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    pointer-events: none;
+    z-index: 10;
+}
+
+.speech-bubble.active {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.speech-bubble::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 40px;
+    width: 20px;
+    height: 20px;
+    background: white;
+    transform: rotate(45deg);
+    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.05);
+}
+
+/* Celebration Effect */
+.particle {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background: red;
+    border-radius: 50%;
+    pointer-events: none;
 }
