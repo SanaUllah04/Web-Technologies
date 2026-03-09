@@ -1,48 +1,18 @@
-function pointHand(subject){
+const speechBubble = document.getElementById("speechBubble");
+const teacherImg = document.getElementById("teacherImg");
 
-let hand = document.getElementById("hand");
+function changeTeacher(position, subject) {
+    if (position === "up") teacherImg.src = "./media/up.png";
+    if (position === "middle") teacherImg.src = "./media/middle.png";
+    if (position === "down") teacherImg.src = "./media/down.png";
 
-if(subject === "english"){
-hand.style.transform = "rotate(-20deg)";
+    // Update and show speech bubble
+    speechBubble.innerText = "Let's study " + subject + "!";
+    speechBubble.classList.add("active");
 }
 
-if(subject === "urdu"){
-hand.style.transform = "rotate(0deg)";
-}
-
-if(subject === "maths"){
-hand.style.transform = "rotate(25deg)";
-}
-
-}
-
-function resetHand(){
-let hand = document.getElementById("hand");
-hand.style.transform = "rotate(0deg)";
-}
-
-
-
-
-
-function changeTeacher(position){
-
-let teacher = document.getElementById("teacherImg");
-
-if(position === "up"){
-teacher.src = "./media/up.png";
-}
-
-if(position === "middle"){
-teacher.src = "./media/middle.png";
-}
-
-if(position === "down"){
-teacher.src = "./media/down.png";
-}
-
-}
-
-function resetTeacher(){
-document.getElementById("teacherImg").src = "./media/middle.png";
+function resetTeacher() {
+    teacherImg.src = "./media/middle.png";
+    speechBubble.classList.remove("active");
+    speechBubble.innerText = "Hello! Let's learn together!";
 }

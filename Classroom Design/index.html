@@ -1,44 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<title>Learning Board</title>
-<link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learning Board</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<div class="container">
+    <div class="container">
+        <div class="teacher">
+            <div id="speechBubble" class="speech-bubble">Hello! Let's learn together!</div>
+            <img id="teacherImg" src="./media/middle.png" alt="Teacher">
+        </div>
 
-    <div class="teacher">
-    <img id="teacherImg" src="./media/middle.png" alt="Teacher">
+        <div class="board">
+            <div class="box" data-subject="english" onmouseover="changeTeacher('up', 'English')"
+                onmouseleave="resetTeacher()">
+                English
+            </div>
 
-<div class="board">
+            <div class="box" data-subject="urdu" onmouseover="changeTeacher('middle', 'Urdu')"
+                onmouseleave="resetTeacher()">
+                Urdu
+            </div>
 
-    <div class="box" 
-    onmouseover="changeTeacher('up')" 
-    onmouseleave="resetTeacher()">
-    English
+            <div class="box" data-subject="maths" onmouseover="changeTeacher('down', 'Maths')"
+                onmouseleave="resetTeacher()">
+                Maths
+            </div>
+        </div>
     </div>
 
-    <div class="box" 
-    onmouseover="changeTeacher('middle')" 
-    onmouseleave="resetTeacher()">
-    Urdu
+    <!-- Decorative Elements -->
+    <div class="decor plant-left">
+        <div class="flower"></div>
+        <div class="leaf"></div>
     </div>
 
-    <div class="box" 
-    onmouseover="changeTeacher('down')" 
-    onmouseleave="resetTeacher()">
-    Maths
+    <div class="decor plant-right">
+        <div class="flower"></div>
+        <div class="leaf"></div>
     </div>
 
-</div>
+    <div class="butterfly">
+        <div class="wing left"></div>
+        <div class="wing right"></div>
+    </div>
 
-</div>
-
-</div>
-
-<script src="script.js"></script>
+    <script src="script.js"></script>
 </body>
+
 </html>
