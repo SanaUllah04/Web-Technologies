@@ -16,3 +16,110 @@ function resetTeacher() {
     speechBubble.classList.remove("active");
     speechBubble.innerText = "Hello! Let's learn together!";
 }
+
+// --- Drag and Drop Paper Balls Logic ---
+let score = 0;
+const scoreValue = document.getElementById('scoreValue');
+const dustbin = document.getElementById('dustbin');
+const paperBalls = document.querySelectorAll('.paper-ball');
+
+let draggedBall = null;
+let offsetX = 0;
+let offsetY = 0;
+
+paperBalls.forEach(ball => {
+    // For Desktop
+    ball.addEventListener('mousedown', (e) => {
+        draggedBall = ball;
+        const rect = ball.getBoundingClientRect();
+        offsetX = e.clientX - rect.left;
+        offsetY = e.clientY - rect.top;
+        ball.style.cursor = 'grabbing';
+        ball.style.zIndex = 1000;
+        ball.style.transition = 'none'; // smooth dragging
+    });
+
+    // For Touch Devices
+    ball.addEventListener('touchstart', (e) => {
+        draggedBall = ball;
+        const touch = e.touches[0];
+        const rect = ball.getBoundingClientRect();
+        offsetX = touch.clientX - rect.left;
+        offsetY = touch.clientY - rect.top;
+        ball.style.zIndex = 1000;
+        ball.style.transition = 'none';
+        e.preventDefault();
+    }, { passive: false });
+});
+
+function moveBall(clientX, clientY) {
+    if (draggedBall) {
+        draggedBall.style.left = (clientX - offsetX) + 'px';
+        draggedBall.style.top = (clientY - offsetY) + 'px';
+        draggedBall.style.bottom = 'auto'; // override bottom CSS
+    }
+}
+
+// Mouse movement
+document.addEventListener('mousemove', (e) => {
+    moveBall(e.clientX, e.clientY);
+});
+
+// Touch movement
+document.addEventListener('touchmove', (e) => {
+    if (draggedBall) {
+        moveBall(e.touches[0].clientX, e.touches[0].clientY);
+        e.preventDefault();
+    }
+}, { passive: false });
+
+function releaseBall() {
+    if (draggedBall) {
+        draggedBall.style.cursor = 'grab';
+        draggedBall.style.zIndex = 20;
+        draggedBall.style.transition = 'transform 0.2s, box-shadow 0.2s';
+
+        // Check if dropped near the dustbin
+        const ballRect = draggedBall.getBoundingClientRect();
+        const binRect = dustbin.getBoundingClientRect();
+
+        const ballCenterX = ballRect.left + ballRect.width / 2;
+        const ballCenterY = ballRect.top + ballRect.height / 2;
+
+        const inRangeX = ballCenterX >= binRect.left - 20 && ballCenterX <= binRect.right + 20;
+        const inRangeY = ballCenterY >= binRect.top - 40 && ballCenterY <= binRect.bottom + 40;
+
+        if (inRangeX && inRangeY) {
+            // Success
+            let thrownBall = draggedBall;
+            thrownBall.style.transform = 'scale(0)';
+            setTimeout(() => {
+                thrownBall.style.display = 'none';
+            }, 200);
+
+            score += 10;
+            scoreValue.innerText = score;
+
+            // Dustbin animation
+            dustbin.classList.add('eat');
+            setTimeout(() => {
+                dustbin.classList.remove('eat');
+            }, 500);
+
+            // Teacher encourages
+            speechBubble.innerText = "Great job! Keep the classroom clean!";
+            speechBubble.classList.add("active");
+            setTimeout(() => {
+                resetTeacher();
+            }, 3000);
+        }
+
+        draggedBall = null;
+    }
+}
+
+// Mouse release
+document.addEventListener('mouseup', releaseBall);
+
+// Touch release
+document.addEventListener('touchend', releaseBall);
