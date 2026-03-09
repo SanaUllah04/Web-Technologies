@@ -1,20 +1,67 @@
 const speechBubble = document.getElementById("speechBubble");
 const teacherImg = document.getElementById("teacherImg");
 
+const translations = {
+    urdu: {
+        hello: "ہیلو! آئیے مل کر سیکھیں!",
+        study_english: "آئیے انگریزی پڑھیں!",
+        study_urdu: "آئیے اردو پڑھیں!",
+        study_maths: "آئیے ریاضی پڑھیں!",
+        english_box: "انگریزی",
+        urdu_box: "اردو",
+        maths_box: "ریاضی",
+        score_label: "اسکور:",
+        great_job: "بہت خوب! کلاس روم صاف رکھیں!"
+    },
+    english: {
+        hello: "Hello! Let's learn together!",
+        study_english: "Let's study English!",
+        study_urdu: "Let's study Urdu!",
+        study_maths: "Let's study Maths!",
+        english_box: "English",
+        urdu_box: "Urdu",
+        maths_box: "Maths",
+        score_label: "Score:",
+        great_job: "Great job! Keep the classroom clean!"
+    }
+};
+
+let currentLanguage = 'urdu';
+
+function toggleLanguage() {
+    const isChecked = document.getElementById('langSwitch').checked;
+    currentLanguage = isChecked ? 'english' : 'urdu';
+
+    // Update texts
+    document.getElementById('englishBox').innerText = translations[currentLanguage].english_box;
+    document.getElementById('urduBox').innerText = translations[currentLanguage].urdu_box;
+    document.getElementById('mathsBox').innerText = translations[currentLanguage].maths_box;
+    document.getElementById('scoreLabel').innerText = translations[currentLanguage].score_label;
+
+    document.getElementById('langUrdu').classList.toggle('active', !isChecked);
+    document.getElementById('langEnglish').classList.toggle('active', isChecked);
+
+    resetTeacher();
+}
+
+let currentSubject = null;
+
 function changeTeacher(position, subject) {
+    currentSubject = subject;
     if (position === "up") teacherImg.src = "./media/up.png";
     if (position === "middle") teacherImg.src = "./media/middle.png";
     if (position === "down") teacherImg.src = "./media/down.png";
 
     // Update and show speech bubble
-    speechBubble.innerText = "Let's study " + subject + "!";
+    speechBubble.innerText = translations[currentLanguage]['study_' + subject];
     speechBubble.classList.add("active");
 }
 
 function resetTeacher() {
+    currentSubject = null;
     teacherImg.src = "./media/middle.png";
     speechBubble.classList.remove("active");
-    speechBubble.innerText = "Hello! Let's learn together!";
+    speechBubble.innerText = translations[currentLanguage].hello;
 }
 
 // --- Drag and Drop Paper Balls Logic ---
@@ -107,7 +154,7 @@ function releaseBall() {
             }, 500);
 
             // Teacher encourages
-            speechBubble.innerText = "Great job! Keep the classroom clean!";
+            speechBubble.innerText = translations[currentLanguage].great_job;
             speechBubble.classList.add("active");
             setTimeout(() => {
                 resetTeacher();
