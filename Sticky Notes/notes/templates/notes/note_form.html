@@ -1,0 +1,41 @@
+{% extends 'notes/base.html' %}
+
+{% block content %}
+    <h2>{% if form.instance.pk %}Edit Note{% else %}Create Note{% endif %}</h2>
+    <form method="post">
+        {% csrf_token %}
+        <div style="margin-bottom: 15px;">
+            {{ form.title.label_tag }}<br>
+            {{ form.title }}
+        </div>
+        <div style="margin-bottom: 15px;">
+            {{ form.content.label_tag }}<br>
+            {{ form.content }}
+            <div style="margin-top: 5px; font-size: 12px; color: #666;">
+                <span id="char-count">0</span> / 5000 characters
+            </div>
+        </div>
+        <div style="margin-bottom: 15px;">
+            {{ form.color.label_tag }}<br>
+            {{ form.color }}
+        </div>
+        <div style="margin-bottom: 15px;">
+            {{ form.is_pinned }} {{ form.is_pinned.label }}
+        </div>
+        <button type="submit" class="btn">Save</button>
+        <a href="{% url 'note_list' %}" style="margin-left: 10px;">Cancel</a>
+    </form>
+    
+    <script>
+        const contentField = document.getElementById('content-field');
+        const charCount = document.getElementById('char-count');
+        
+        function updateCharCount() {
+            charCount.textContent = contentField.value.length;
+        }
+        
+        contentField.addEventListener('input', updateCharCount);
+        // Initialize on page load
+        updateCharCount();
+    </script>
+{% endblock %}

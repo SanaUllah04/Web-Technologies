@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sticky Notes</title>
+    <style>
+        body { font-family: sans-serif; background-color: #fce4ec; padding: 20px; }
+        .container { max-width: 1000px; margin: 0 auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .nav { margin-bottom: 20px; }
+        .nav a { margin-right: 15px; text-decoration: none; color: #d81b60; font-weight: bold; }
+        .messages { margin-bottom: 20px; padding: 10px; background-color: #e8f5e9; border: 1px solid #c8e6c9; border-radius: 4px; }
+        .notes-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 15px; margin-bottom: 20px; }
+        .note-card { background-color: #fff9c4; padding: 15px; border-radius: 4px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); }
+        .note-card h3 { margin-top: 0; }
+        .btn { padding: 8px 12px; background-color: #d81b60; color: white; text-decoration: none; border-radius: 4px; border: none; cursor: pointer; margin-right: 5px; }
+        .btn:hover { opacity: 0.8; }
+        .btn-delete { background-color: #e53935; }
+        .btn-edit { background-color: #1e88e5; }
+        .form-control { width: 100%; padding: 8px; margin-top: 5px; border: 1px solid #ddd; border-radius: 4px; font-family: sans-serif; box-sizing: border-box; }
+        .color-picker { width: 60px; height: 40px; border: none; border-radius: 4px; cursor: pointer; }
+        .form-check-input { margin-right: 8px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="nav">
+            {% if user.is_authenticated %}
+                <a href="{% url 'note_list' %}">My Notes</a>
+                <a href="{% url 'note_create' %}">Create Note</a>
+                <form method="post" action="{% url 'logout' %}" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" style="background: none; border: none; color: #d81b60; font-weight: bold; cursor: pointer; padding: 0; text-decoration: none;">Logout ({{ user.username }})</button>
+                </form>
+            {% else %}
+                <a href="{% url 'login' %}">Login</a>
+                <a href="{% url 'register' %}">Register</a>
+            {% endif %}
+        </div>
+
+        {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                    <p>{{ message }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        {% block content %}
+        {% endblock %}
+    </div>
+</body>
+</html>
