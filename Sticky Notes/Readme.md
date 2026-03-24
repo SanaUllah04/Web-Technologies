@@ -2,6 +2,8 @@
 
 A full-stack CRUD application for managing personal notes with a clean, interactive user interface. This project is built using Python, Django, and SQLite, featuring a modern sticky-note aesthetic.
 
+![Sticky Notes](media/sticky_notes.PNG)
+
 ## Features
 
 - **Create, Read, Update, Delete (CRUD):** Manage your sticky notes efficiently.

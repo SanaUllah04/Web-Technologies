@@ -1,7 +1,5 @@
 # 🌐 Web Technologies Workspace
 
-![Banner](assets/banner.png)
-
 ## 🚀 Welcome to my Web Technologies Portfolio!
 This repository showcases a collection of projects developed during the **CS-4070 Web Technologies** course. From recreating historical newspaper layouts to building modern full-stack applications, this workspace documents my journey into the world of web development.
 
@@ -13,7 +11,7 @@ This repository showcases a collection of projects developed during the **CS-407
 A vintage-style multi-column layout of the **"Roznama Mashriq"** (1984 edition) recreated using pure **HTML5** and inline styling.
 
 <p align="center">
-  <img src="assets/newspaper.png" alt="Newspaper Project" width="800">
+  <img src="HTML-Newspaper-SanaUllah-22P-9038/images/front-Page.png" alt="Newspaper Project" width="800">
 </p>
 
 *   **Core Concepts:** Multi-column layouts using tables, semantic HTML5, inline CSS.
@@ -28,7 +26,7 @@ A vintage-style multi-column layout of the **"Roznama Mashriq"** (1984 edition) 
 A full-stack CRUD application for managing personal notes with a clean, interactive user interface.
 
 <p align="center">
-  <img src="assets/sticky_notes.png" alt="Sticky Notes Project" width="800">
+  <img src="Sticky Notes/media/sticky_notes.PNG" alt="Sticky Notes Project" width="800">
 </p>
 
 *   **Core Concepts:** Python/Django, SQLite, CRUD Operations, User Authentication.
